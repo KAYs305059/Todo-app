@@ -1,24 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
 
 function App() {
+  const[todos, setTodos] = useState(['Go buy banana', 'Take out the trash', 'I have to be more tenacious!']);
+  const[input, setInput] = useState('');
+  console.log(input);
+
+  const addTodo = (event) => {
+    //this will fire off when we click the button!
+    event.preventDefault(); // Will stop the REFRESHING
+    console.log('This works');
+    setTodos([...todos, input])
+    setInput(''); // clear up the input after hitting submit
+  }
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Hello Le Singe 🐒!</h1>
+      <form>
+      <input value={input} onChange ={event => setInput(event.target.value)}/>
+      <button type={"submit"} onClick={addTodo}> Add to list </button>
+      </form>
+      <ul>
+        {todos.map(todo => (
+          <li>{todo}</li>
+        ))}
+      </ul>
     </div>
   );
 }
