@@ -1,11 +1,20 @@
 import React, { useState } from 'react';
-import { Button } from '@material-ui/core';
+import { Button, FormControl, Input, InputLabel } from '@material-ui/core';
 import './App.css';
+import Todo from './Todo';
+import db from './firebase':
 
 function App() {
-  const[todos, setTodos] = useState(['Go buy banana', 'Take out the trash', 'I have to be more tenacious!']);
+  const[todos, setTodos] = useState([]);
   const[input, setInput] = useState('');
-  console.log(input);
+
+  // when the app loads, we need to listen to the database and fetch new todos as they get added/removed
+  useEffect(() => {
+    //this function here fires when the app.js loads
+    db.collection('todos').onSnapshot(snapshot => {
+      
+    })
+  }, []);
 
   const addTodo = (event) => {
     //this will fire off when we click the button!
@@ -20,15 +29,20 @@ function App() {
     <div className="App">
       <h1>Hello Le Singe 🐒!</h1>
       <form>
-      <input value={input} onChange ={event => setInput(event.target.value)}/>
-      <Button type={"submit"} onClick={addTodo} variant="contained" color="primary">
+
+      <FormControl>
+        <InputLabel> ✅ Write a Todo list</InputLabel>
+        <Input value={input} onChange ={event => setInput(event.target.value)}/>
+      </FormControl>
+
+      <Button disabled={!input} type={"submit"} onClick={addTodo} variant="contained" color="primary">
         Add to list
         </Button>
-      {/* <button type={"submit"} onClick={addTodo} > Add to list </button> */}
       </form>
       <ul>
         {todos.map(todo => (
-          <li>{todo}</li>
+         <Todo text={todo}/>
+         // <li>{todo}</li>
         ))}
       </ul>
     </div>
